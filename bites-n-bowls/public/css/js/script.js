@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const weightDispensed = actualRounds * ROUND_WEIGHT_G;
 
         try {
-            const response = await fetch('../api/save_feed.php', {
+            const response = await fetch('/api/feed/dispense', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         setTimeout(async () => {
             try {
-                const response = await fetch('../api/recalibrate.php', {
+                const response = await fetch('../api/feed/recalibrate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadSchedules = async () => {
         try {
-            const response = await fetch('../api/get_schedules.php');
+            const response = await fetch('../api/schedules');
             const data = await response.json();
 
             if (data.success) {
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const deleteSchedule = async (id) => {
         if (confirm('Are you sure you want to delete this schedule?')) {
             try {
-                const response = await fetch('../api/delete_schedule.php', {
+                const response = await fetch('../api/schedules/:id', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (id) {
             try {
-                const response = await fetch('../api/get_schedules.php');
+                const response = await fetch('../api/schedules');
                 const data = await response.json();
                 const schedule = data.schedules.find(s => s.id == id);
 
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadHistory = async (search = '') => {
         try {
-            const url = search ? `../api/get_history.php?search=${encodeURIComponent(search)}` : '../api/get_history.php';
+            const url = search ? `../api/history?search=${encodeURIComponent(search)}` : '../api/get_history.php';
             const response = await fetch(url);
             const data = await response.json();
 
@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadAlerts = async () => {
         try {
-            const response = await fetch('../api/get_alerts.php');
+            const response = await fetch('../api/alerts');
             const data = await response.json();
 
             if (data.success) {
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadSettings = async () => {
         try {
-            const response = await fetch('../api/get_settings.php');
+            const response = await fetch('../api/settings');
             const data = await response.json();
 
             if (data.success) {
@@ -529,7 +529,7 @@ const handleFactoryReset = async () => {
     if (!isConfirmed) return;
 
     try {
-        const response = await fetch('../api/factory_reset.php', {
+        const response = await fetch('../settings/factory-reset', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -591,7 +591,7 @@ const saveAccountSettings = async () => {
     }
 
     try {
-        const response = await fetch('../api/change_password.php', {
+        const response = await fetch('../api/auth/change-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ oldPassword, newPassword })
@@ -688,7 +688,7 @@ if (DOM.saveScheduleBtn) DOM.saveScheduleBtn.addEventListener('click', async (e)
     }
 
     try {
-        const response = await fetch('../api/save_schedule.php', {
+        const response = await fetch('..`/api/schedules', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id || 0, interval, time, rounds, frequency, customDays })
@@ -776,7 +776,7 @@ if (DOM.cancelAccountBtn) DOM.cancelAccountBtn.addEventListener('click', loadAcc
 
 setInterval(async () => {
     try {
-        const response = await fetch('../api/get_device_status.php');
+        const response = await fetch('..//api/settings/status');
         const data = await response.json();
         
         if (data.success) {
